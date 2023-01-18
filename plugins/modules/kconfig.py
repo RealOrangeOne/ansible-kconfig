@@ -2,6 +2,56 @@ from typing import Optional
 
 from ansible.module_utils.basic import AnsibleModule
 
+DOCUMENTATION = r"""
+module: kconfig
+author:
+    - Jake Howard
+short_description: Manage KDE's configuration through kconfig
+description:
+  - This module allows modification and reading of KDE's C(kconfig) configuration.
+  - This module works by wrapping the C(kreadconfig5) and C(kwriteconfig5) CLI tools,
+    which need to be on your C($PATH). These should come with any KDE install.
+notes:
+  - KDE sadly doesn't easily expose which keys and groups respond to which settings,
+    so it will require some work to diff the C(~/config) directory yourself.
+options:
+  file:
+    type: str
+    required: false
+    description:
+      - The filename to read / write configuration from.
+  group:
+    type: str
+    required: true
+    description:
+      - The group in the given I(file) to write into.
+  key:
+    type: str
+    required: true
+    description:
+      - The key in the I(group) which is modified or read.
+  value:
+    type: str
+    required: false
+    description:
+      - The value to set for the specified key.
+      - Required for I(state=present).
+  state:
+    type: str
+    required: false
+    default: present
+    choices: [ 'read', 'present' ]
+    description:
+      - The action to take upon the key/value.
+"""
+
+RETURN = r"""
+value:
+    description: value associated with the requested key
+    returned: success, state was "read"
+    type: str
+"""
+
 
 class KConfigWrapper:
     def __init__(self, module: AnsibleModule):
