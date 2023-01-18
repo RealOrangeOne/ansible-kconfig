@@ -1,0 +1,26 @@
+on: [pull_request, push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        os: ["ubuntu-latest"]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('dev-requirements.txt') }}
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r dev-requirements.txt
+      - name: Run tests
+        run: scripts/test.sh
