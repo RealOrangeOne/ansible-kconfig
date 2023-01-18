@@ -8,5 +8,3 @@ set -x
 
 black plugins/
 isort plugins/
-flake8 plugins/
-mypy plugins/

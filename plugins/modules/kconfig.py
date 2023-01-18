@@ -130,13 +130,13 @@ def main() -> None:
         supports_check_mode=True,
     )
 
+    params = module.params
+
     # If present state was specified, value must be provided.
-    if module.params["state"] == "present" and module.params["value"] is None:
+    if params["state"] == "present" and params["value"] is None:
         module.fail_json(msg='State "present" requires "value" to be set.')
 
     kconfig = KConfigWrapper(module)
-
-    params = module.params
 
     if params["state"] == "read":
         value = kconfig.read(params["file"], params["group"], params["key"])
