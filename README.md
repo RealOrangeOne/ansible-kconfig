@@ -9,10 +9,10 @@ This module works by wrapping `kreadconfig5` and `kwriteconfig5`. These need to 
 
 ## Installation
 
-Install the `theorangeone.kconfig` collection from Ansible Galaxy:
+Install the `realorangeone.kconfig` collection from Ansible Galaxy:
 
 ```
-ansible-galaxy collection install theorangeone.kconfig
+ansible-galaxy collection install realorangeone.kconfig
 ```
 
 ## Use
