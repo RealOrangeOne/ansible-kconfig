@@ -16,3 +16,5 @@ issues: https://github.com/RealOrangeOne/ansible-kconfig/issues
 build_ignore:
   - .github
   - .gitignore
+  - env*
+  - .mypy_cache*
