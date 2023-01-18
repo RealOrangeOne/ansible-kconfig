@@ -1,0 +1,18 @@
+namespace: theorangeone
+name: kconfig
+version: 0.1.0
+readme: README.md
+authors:
+  - Jake Howard
+description: Manage KDE's configuration through kconfig
+license_file: LICENSE
+tags:
+  - kde
+dependencies: {}
+repository: https://github.com/RealOrangeOne/ansible-kconfig
+documentation: https://github.com/RealOrangeOne/ansible-kconfig/blob/master/README.md
+homepage: https://github.com/RealOrangeOne/ansible-kconfig
+issues: https://github.com/RealOrangeOne/ansible-kconfig/issues
+build_ignore:
+  - .github
+  - .gitignore
