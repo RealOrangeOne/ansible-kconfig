@@ -24,7 +24,6 @@ This collection defines a single module `kconfig` which can be used to read or w
 ```yaml
 - name: Set animation duration
   kconfig:
-    state: present
     group: KDE
     key: AnimationDurationFactor
     value: 0.5

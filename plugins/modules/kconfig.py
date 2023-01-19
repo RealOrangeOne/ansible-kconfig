@@ -141,7 +141,7 @@ def main() -> None:
     if params["state"] == "read":
         value = kconfig.read(params["file"], params["group"], params["key"])
         module.exit_json(changed=False, value=value)
-    elif params["state"] == "write":
+    elif params["state"] == "present":
         changed = kconfig.write(
             params["file"], params["group"], params["key"], params["value"]
         )
