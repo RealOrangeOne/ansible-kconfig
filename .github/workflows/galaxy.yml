@@ -29,4 +29,4 @@ jobs:
       - name: Deploy collection
         run: |
           ansible-galaxy collection build
-          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./realorangeone-kconfig-*.tar.gz"
+          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} ./realorangeone-kconfig-*.tar.gz
