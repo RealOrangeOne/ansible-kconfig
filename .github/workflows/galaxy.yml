@@ -1,0 +1,32 @@
+name: Build and Publish Collection to Ansible Galaxy
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v2
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('dev-requirements.txt') }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r dev-requirements.txt
+      - name: Deploy collection
+        run: |
+          ansible-galaxy collection build
+          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./realorangeone-kconfig-*.tar.gz"
