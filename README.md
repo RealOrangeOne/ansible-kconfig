@@ -42,4 +42,4 @@ This collection defines a single module `kconfig` which can be used to read or w
 
 ### Parameters
 
-See the `DOCUMENTATION` paramters in [`kconfig.py`](./plugins/modules/kconfig.py) for full documentation.
+See the `DOCUMENTATION` parameter in [`kconfig.py`](./plugins/modules/kconfig.py) for full documentation.
