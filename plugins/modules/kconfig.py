@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -21,10 +21,11 @@ options:
     description:
       - The filename to read / write configuration from.
   group:
-    type: str
+    type: list
     required: true
     description:
       - The group in the given I(file) to write into.
+      - For nested groups, provide multiple values
   key:
     type: str
     required: true
@@ -61,8 +62,11 @@ class KConfigWrapper:
         self.write_config_bin = self.module.get_bin_path("kwriteconfig5", required=True)
         self.read_config_bin = self.module.get_bin_path("kreadconfig5", required=True)
 
-    def read(self, file: Optional[str], group: str, key: str) -> Optional[str]:
-        command = [self.read_config_bin, "--group", group, "--key", key]
+    def read(self, file: Optional[str], groups: List[str], key: str) -> Optional[str]:
+        command = [self.read_config_bin, "--key", key]
+
+        for group in groups:
+            command.extend(["--group", group])
 
         if file is not None:
             command.extend(["--file", file])
@@ -83,15 +87,20 @@ class KConfigWrapper:
 
         return value
 
-    def write(self, file: Optional[str], group: str, key: str, value: str) -> bool:
+    def write(
+        self, file: Optional[str], groups: List[str], key: str, value: str
+    ) -> bool:
         # If no change is needed (or won't be done due to check_mode), notify
         # caller straight away.
-        if value == self.read(file, group, key):
+        if value == self.read(file, groups, key):
             return False
         elif self.check_mode:
             return True
 
-        command = [self.write_config_bin, "--group", group, "--key", key]
+        command = [self.write_config_bin, "--key", key]
+
+        for group in groups:
+            command.extend(["--group", group])
 
         if file is not None:
             command.extend(["--file", file])
@@ -122,7 +131,7 @@ def main() -> None:
             },
             "group": {
                 "required": True,
-                "type": "str",
+                "type": "list",
             },
             "value": {"required": False, "type": "str", "default": None},
             "file": {"required": False, "type": "str", "default": None},
@@ -131,6 +140,9 @@ def main() -> None:
     )
 
     params = module.params
+
+    if not params["group"]:
+        module.fail_json(msg="Must provide a group.")
 
     # If present state was specified, value must be provided.
     if params["state"] == "present" and params["value"] is None:
