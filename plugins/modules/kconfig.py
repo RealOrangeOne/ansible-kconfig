@@ -59,8 +59,18 @@ class KConfigWrapper:
         self.module = module
         self.check_mode = module.check_mode
 
-        self.write_config_bin = self.module.get_bin_path("kwriteconfig5", required=True)
-        self.read_config_bin = self.module.get_bin_path("kreadconfig5", required=True)
+        self.write_config_bin = self.module.get_bin_path(
+            "kwriteconfig6", required=False
+        )
+        self.read_config_bin = self.module.get_bin_path("kreadconfig6", required=False)
+
+        if self.write_config_bin is None or self.read_config_bin is None:
+            self.write_config_bin = self.module.get_bin_path(
+                "kwriteconfig5", required=True
+            )
+            self.read_config_bin = self.module.get_bin_path(
+                "kreadconfig5", required=True
+            )
 
     def read(self, file: Optional[str], groups: List[str], key: str) -> Optional[str]:
         command = [self.read_config_bin, "--key", key]

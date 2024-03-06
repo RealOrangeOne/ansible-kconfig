@@ -4,8 +4,7 @@ Ansible module to manage KDE's configuration through [kconfig](https://develop.k
 
 ## Requirements
 
-This module works by wrapping `kreadconfig5` and `kwriteconfig5`. These need to be installed and on your `$PATH`. THey should come with any KDE install.
-
+This module works by wrapping `kreadconfig` and `kwriteconfig` (KDE 5 and 6 variants, eg `kreadconfig6`). These need to be installed and on your `$PATH`. THey should come with any KDE install.
 
 ## Installation
 
